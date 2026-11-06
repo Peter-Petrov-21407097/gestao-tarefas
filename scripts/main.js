@@ -1,185 +1,173 @@
 // Variáveis
 
-const API_URL = 'http://tarefas.pw.deisi.ulusofona.pt'
-const ul_node = document.querySelector('ul')
+const modal_editar_node = document.querySelector("#modal-editar")
+const form_editar_node = document.querySelector("#form-editar")
 
-const titulo_node = document.querySelector("#titulo")
-const prioridade_node = document.querySelector("#prioridade")
-const user_node = document.querySelector("#user")
-const form_nova_node = document.querySelector("#nova-tarefa")
+const edit_id_node = document.querySelector("#edit-id")
+const edit_titulo_node = document.querySelector("#edit-titulo")
+const edit_prioridade_node = document.querySelector("#edit-prioridade")
+const edit_user_node = document.querySelector("#edit-user")
 
+const fechar_modal_node = document.querySelector("#fechar-modal")
 
-const titulo_edit_node = document.querySelector("#edit_titulo")
-const prioridade_edit_node = document.querySelector("#edit_prioridade")
-const user_edit_node = document.querySelector("#edit_user")
+const STORAGE_KEY = "taskflow-tarefas"
 
-const modal_node = document.querySelector("#modal_editar")
+let tarefas = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []
 
-const modal_apagar_node = document.querySelector("#modal_apagar");
-const cancelar_apagar_node = document.querySelector("#cancelar_apagar");
-const confirmar_apagar_node = document.querySelector("#confirmar_apagar");
+// Guardar tarefas
 
-let tarefa_id_apagar = null;
-//
-// Fetch de dados
+function guardarTarefas() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(tarefas))
+}
+
+// Atualizar estatisticas
+
+function atualizarEstatisticas() {
+    total_node.textContent = tarefas.length
+
+    pendentes_node.textContent = tarefas.filter(
+        tarefa => tarefa.estado === "pendente"
+    ).length
+
+    concluidas_node.textContent = tarefas.filter(
+        tarefa => tarefa.estado === "concluida"
+    ).length
+}
+
+// Apresentar tarefas
 
 function listarTarefas() {
-  fetch(`${API_URL}/tarefas`)
-    .then(response => {
-      if (!response.ok) throw new Error(response.status);
-      return response.json();
-    })
-    .then(data => {
-      ul_node.innerHTML = ""
-      data.forEach(item =>{
-        const li = document.createElement('li')
+    ul_node.innerHTML = ""
 
-        const tarefa = document.createElement('span')
-        tarefa.innerHTML = `<span>${item.titulo}</span><span>${item.user}. prioridade: ${"⭐️".repeat(item.prioridade)} </span>`
+    mensagem_vazia_node.hidden = tarefas.length !== 0
 
-        const btn_editar = document.createElement('button');
-        btn_editar.innerHTML = '<i data-lucide="pencil"></i>';
+    tarefas.forEach(tarefa => {
+        const li = document.createElement("li")
 
-        btn_editar.title = 'Editar tarefa';
-        btn_editar.onclick = () => editarTarefa(item.id);
+        const descricao = document.createElement("span")
+        descricao.textContent = tarefa.titulo
 
-        const btn_apagar = document.createElement('button');
-        btn_apagar.innerHTML = '<i data-lucide="trash-2"></i>';
+        const responsavel = document.createElement("span")
+        responsavel.textContent = `Responsável: ${tarefa.user}`
 
-        btn_apagar.title = 'Apagar tarefa';
-        btn_apagar.onclick = () => querApagarTarefa(item.id);
+        const prioridade = document.createElement("span")
 
-        li.append(tarefa, btn_editar, btn_apagar);
+        const prioridades = {
+            1: "Baixa",
+            2: "Média",
+            3: "Alta"
+        }
+
+        prioridade.textContent = `Prioridade: ${prioridades[tarefa.prioridade]}`
+
+        const estado = document.createElement("span")
+        estado.textContent = tarefa.estado === "pendente"
+            ? "Pendente"
+            : "Concluída"
+
+        const btn_editar = document.createElement("button")
+        btn_editar.textContent = "Editar"
+        btn_editar.type = "button"
+        btn_editar.onclick = () => editarTarefa(tarefa.id)
+
+        li.append(
+          descricao,
+          responsavel,
+          prioridade,
+          estado,
+          btn_editar
+        )
 
         ul_node.append(li)
+    })
 
-       
-      })
-      lucide.createIcons();
-    })
-    .catch(error => {
-      console.error("Erro ao carregar tarefas:", error);
-      alert("Não foi possível carregar as tarefas.");
-    })
+    atualizarEstatisticas()
 }
 
-//
-// Event handlers
+// Criar tarefa
+
 function criarTarefa(event) {
-  event.preventDefault()
+    event.preventDefault()
 
-  if (![1, 2, 3].includes(Number(prioridade_node.value))) {
-    alert("A prioridade deve ser 1, 2 ou 3.");
-    prioridade_node.focus();
-    return;
-  }
+    const nova_tarefa = {
+        id: Date.now(),
+        titulo: titulo_node.value.trim(),
+        prioridade: Number(prioridade_node.value),
+        user: user_node.value.trim(),
+        estado: "pendente"
+    }
 
-  fetch(`${API_URL}/tarefas`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      titulo: titulo_node.value,
-      user: user_node.value,
-      prioridade: Number(prioridade_node.value)
-    })
-  })
-  .then(response =>  {
-    if (!response.ok) throw new Error(response.status);
-    
-    form_nova_node.reset();
+    if (
+        !nova_tarefa.titulo ||
+        !nova_tarefa.user ||
+        ![1, 2, 3].includes(nova_tarefa.prioridade)
+    ) {
+        alert("Preenche todos os campos corretamente.")
+        return
+    }
+
+    tarefas.push(nova_tarefa)
+
+    guardarTarefas()
     listarTarefas()
-  })
-  .catch(error => {
-    console.error("Erro ao criar tarefa:", error);
-    alert("Não foi possível criar a tarefa.");
-  });
+
+    form_nova_node.reset()
 }
 
-function atualizarTarefa(event) {
-  event.preventDefault()
-
-  const id = document.querySelector("#edit_id").value;
-  
-  fetch(`${API_URL}/tarefas/${id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      titulo: titulo_edit_node.value,
-      user: user_edit_node.value,
-      prioridade: Number(prioridade_edit_node.value)
-    })
-  })
-  .then(response => {
-    if (!response.ok) throw new Error(response.status);
-    
-    modal_node.close();
-    listarTarefas()
-  })
-  .catch(error => {
-    console.error("Erro ao atualizar tarefa:", error);
-    alert("Não foi possível atualizar a tarefa.");
-  });
-}
-
-function querApagarTarefa(id) {
-    tarefa_id_apagar = id;
-    modal_apagar_node.showModal();
-}
-
-function apagarTarefa() {
-  fetch(`${API_URL}/tarefas/${tarefa_id_apagar}`,{
-    method: 'DELETE',
-  })
-  .then(response => {
-    if (!response.ok) throw new Error(response.status);
-    listarTarefas()
-  })
-  .catch(error => {
-    console.error("Erro ao apagar tarefa:", error);
-    alert("Não foi possível apagar a tarefa.");
-  });
-}
+// Editar tarefa
 
 function editarTarefa(id) {
+    const tarefa = tarefas.find(tarefa => tarefa.id === id)
 
-  fetch(`${API_URL}/tarefas/${id}`,{
-    method: 'GET',
-  })
-  .then(response => {
-    if (!response.ok) throw new Error(response.status);
-    return response.json()
-  })
-  .then(data => {
-    document.querySelector("#edit_id").value = data.id;
-    document.querySelector("#edit_titulo").value = data.titulo;
-    document.querySelector("#edit_prioridade").value = data.prioridade;
-    document.querySelector("#edit_user").value = data.user;
+    if (!tarefa) return
 
-    modal_node.showModal()
-  })
-  .catch(error => {
-    console.error("Erro ao editar a tarefa:", error);
-    alert("Não foi possível editar a tarefa.");
-  });
+    edit_id_node.value = tarefa.id
+    edit_titulo_node.value = tarefa.titulo
+    edit_prioridade_node.value = tarefa.prioridade
+    edit_user_node.value = tarefa.user
+
+    modal_editar_node.showModal()
 }
 
-//
+// Atualizar tarefa
+
+function atualizarTarefa(event) {
+    event.preventDefault()
+
+    const id = Number(edit_id_node.value)
+    const tarefa = tarefas.find(tarefa => tarefa.id === id)
+
+    if (!tarefa) return
+
+    const titulo = edit_titulo_node.value.trim()
+    const user = edit_user_node.value.trim()
+    const prioridade = Number(edit_prioridade_node.value)
+
+    if (!titulo || !user || ![1, 2, 3].includes(prioridade)) {
+        alert("Preenche todos os campos corretamente.")
+        return
+    }
+
+    tarefa.titulo = titulo
+    tarefa.user = user
+    tarefa.prioridade = prioridade
+
+    guardarTarefas()
+    listarTarefas()
+
+    modal_editar_node.close()
+}
+
 // Event listeners
-form_nova_node.onsubmit = criarTarefa
 
-document.querySelector("#form_editar")
-        .onsubmit = atualizarTarefa
 
-document.querySelector("#fechar_modal")
-        .addEventListener('click', () => modal_node.close())
+form_editar_node.addEventListener("submit", atualizarTarefa)
 
-confirmar_apagar_node.onclick = apagarTarefa
-cancelar_apagar_node.onclick = () => modal_apagar_node.close()
+fechar_modal_node.addEventListener("click", () => {
+    modal_editar_node.close()
+})
+form_nova_node.addEventListener("submit", criarTarefa)
 
-//
 // Inicialização
+
 listarTarefas()

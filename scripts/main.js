@@ -2,16 +2,17 @@
 
 const modal_editar_node = document.querySelector("#modal-editar")
 const form_editar_node = document.querySelector("#form-editar")
-
 const edit_id_node = document.querySelector("#edit-id")
 const edit_titulo_node = document.querySelector("#edit-titulo")
 const edit_prioridade_node = document.querySelector("#edit-prioridade")
 const edit_user_node = document.querySelector("#edit-user")
-
 const fechar_modal_node = document.querySelector("#fechar-modal")
-
 const STORAGE_KEY = "taskflow-tarefas"
+const modal_apagar_node = document.querySelector("#modal-apagar")
+const confirmar_apagar_node = document.querySelector("#confirmar-apagar")
+const cancelar_apagar_node = document.querySelector("#cancelar-apagar")
 
+let tarefa_para_apagar = null
 let tarefas = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []
 
 // Guardar tarefas
@@ -70,12 +71,18 @@ function listarTarefas() {
         btn_editar.type = "button"
         btn_editar.onclick = () => editarTarefa(tarefa.id)
 
+        const btn_apagar = document.createElement("button")
+        btn_apagar.textContent = "Eliminar"
+        btn_apagar.type = "button"
+        btn_apagar.onclick = () => eliminarTarefa(tarefa.id)
+
         li.append(
-          descricao,
-          responsavel,
-          prioridade,
-          estado,
-          btn_editar
+            descricao,
+            responsavel,
+            prioridade,
+            estado,
+            btn_editar,
+            btn_apagar
         )
 
         ul_node.append(li)
@@ -158,6 +165,37 @@ function atualizarTarefa(event) {
     modal_editar_node.close()
 }
 
+// Eliminar tarefa
+
+function eliminarTarefa(id) {
+    tarefa_para_apagar = id
+
+    modal_apagar_node.showModal()
+}
+
+// Confirmar eliminacao
+
+function confirmarEliminacao() {
+    if (tarefa_para_apagar === null) return
+
+    tarefas = tarefas.filter(
+        tarefa => tarefa.id !== tarefa_para_apagar
+    )
+
+    guardarTarefas()
+    listarTarefas()
+
+    tarefa_para_apagar = null
+    modal_apagar_node.close()
+}
+
+// Cancelar eliminacao
+
+function cancelarEliminacao() {
+    tarefa_para_apagar = null
+    modal_apagar_node.close()
+}
+
 // Event listeners
 
 
@@ -167,6 +205,16 @@ fechar_modal_node.addEventListener("click", () => {
     modal_editar_node.close()
 })
 form_nova_node.addEventListener("submit", criarTarefa)
+
+confirmar_apagar_node.addEventListener(
+    "click",
+    confirmarEliminacao
+)
+
+cancelar_apagar_node.addEventListener(
+    "click",
+    cancelarEliminacao
+)
 
 // Inicialização
 

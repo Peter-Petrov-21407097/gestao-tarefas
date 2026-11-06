@@ -109,10 +109,9 @@ function listarTarefas() {
     const prioridade = document.createElement("span")
 
     const simbolos_prioridade = {
-      1: "🟢",
+      1: "🔴",
       2: "🟡",
-      3: "🟠",
-      4: "🔴"
+      3: "🟢"      
     }
 
 prioridade.textContent = simbolos_prioridade[tarefa.prioridade]

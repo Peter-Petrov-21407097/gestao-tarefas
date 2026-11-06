@@ -182,6 +182,7 @@ button:hover {
 }
 
 
+
 /* Lista de tarefas */
 
 #lista {
@@ -195,26 +196,19 @@ button:hover {
     list-style: none;
 }
 
-#lista li {
-    display: flex;
+#lista li.tarefa {
+    display: grid;
+    grid-template-columns:
+        minmax(130px, 2fr)
+        minmax(100px, 1.3fr)
+        minmax(90px, 1fr)
+        minmax(75px, 0.8fr)
+        repeat(3, minmax(85px, 1fr));
+
     align-items: center;
     gap: 10px;
 
     padding: 15px;
-
-    background: #FAFBFD;
-
-    border: 1px solid #E1E6F0;
-    border-left: 4px solid #3157D5;
-    border-radius: 8px;
-}
-
-#lista li.tarefa {
-    display: grid;
-    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
-    gap: 12px;
-
-    padding: 18px;
 
     background: white;
 
@@ -253,7 +247,8 @@ button:hover {
 
 #lista li button {
     width: 100%;
-    padding: 9px 12px;
+    padding: 9px 5px;
+    font-size: 12px;
 }
 
 #lista li .btn-estado {
@@ -431,7 +426,7 @@ footer {
 
 /* Ecrãs pequenos */
 
-@media (max-width: 600px) {
+@media (max-width: 750px) {
 
     header {
         padding: 25px 15px;
@@ -471,5 +466,9 @@ footer {
 
     #lista li.tarefa span:first-child {
         grid-column: 1 / -1;
+    }
+
+    #lista li.tarefa button {
+        font-size: 13px;
     }
 }

@@ -230,6 +230,13 @@ button:hover {
     text-align: center;
 }
 
+/* Simbolos de prioridade */
+
+.simbolo-prioridade {
+    font-size: 22px;
+    text-align: center;
+}
+
 /* Tarefas concluidas */
 
 #lista li.concluida {

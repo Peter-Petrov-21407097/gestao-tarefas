@@ -1,0 +1,336 @@
+
+/* Configuração geral */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    background: #F4F6FA;
+    color: #202B40;
+}
+
+header {
+    padding: 35px 20px;
+
+    background: #263B70;
+    color: white;
+
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 32px;
+    letter-spacing: 1px;
+}
+
+header p {
+    margin-bottom: 0;
+    color: #D5DEF5;
+}
+
+main {
+    width: 90%;
+    max-width: 850px;
+
+    margin: 35px auto;
+}
+
+section {
+    margin-bottom: 30px;
+}
+
+h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+
+    font-size: 21px;
+    color: #263B70;
+}
+
+/* Formulário de novas tarefas */
+
+#nova-tarefa,
+#lista-tarefas,
+#estatisticas {
+    padding: 25px;
+
+    background: white;
+
+    border: 1px solid #E1E6F0;
+    border-radius: 12px;
+
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+}
+
+#form-nova-tarefa {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #46536B;
+}
+
+input,
+textarea,
+select,
+button {
+    width: 100%;
+
+    padding: 12px;
+
+    font-family: inherit;
+    font-size: 14px;
+
+    border: 1px solid #D8DEEA;
+    border-radius: 7px;
+}
+
+input,
+textarea,
+select {
+    background: #FAFBFD;
+    color: #202B40;
+}
+
+textarea {
+    resize: vertical;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: #3157D5;
+
+    box-shadow: 0 0 0 3px rgba(49, 87, 213, 0.10);
+}
+
+button {
+    background: #3157D5;
+    color: white;
+
+    border: none;
+
+    font-weight: bold;
+    cursor: pointer;
+
+    transition: background 0.2s;
+}
+
+button:hover {
+    background: #2445B5;
+}
+
+/* Estatísticas */
+
+#estatisticas ul {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#estatisticas li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    padding: 20px 10px;
+
+    background: #F4F6FA;
+    border-radius: 9px;
+
+    color: #718096;
+}
+
+#estatisticas strong {
+    font-size: 28px;
+    color: #3157D5;
+}
+
+/* Pesquisa e filtros */
+
+#filtros {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+
+    margin-bottom: 20px;
+}
+
+#filtros label {
+    grid-column: auto;
+}
+
+#pesquisa {
+    grid-column: 1 / -1;
+}
+
+/* Lista de tarefas */
+
+#lista {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    padding: 0;
+    margin: 0;
+
+    list-style: none;
+}
+
+#lista li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 15px;
+
+    background: #FAFBFD;
+
+    border: 1px solid #E1E6F0;
+    border-left: 4px solid #3157D5;
+    border-radius: 8px;
+}
+
+#lista li button {
+    width: auto;
+    padding: 9px 12px;
+}
+
+#lista li button:last-child {
+    background: #D94A4A;
+}
+
+#lista li button:last-child:hover {
+    background: #B83232;
+}
+
+#mensagem-vazia {
+    padding: 20px;
+
+    text-align: center;
+    color: #718096;
+}
+
+/* Modal */
+
+dialog {
+    width: 90%;
+    max-width: 450px;
+
+    padding: 25px;
+
+    background: white;
+
+    border: none;
+    border-radius: 12px;
+
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.20);
+}
+
+dialog::backdrop {
+    background: rgba(20, 30, 50, 0.55);
+}
+
+dialog h2 {
+    margin-bottom: 20px;
+}
+
+dialog form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#form-editar button[type="submit"] {
+    background: #3157D5;
+}
+
+#fechar-modal,
+#cancelar-apagar {
+    background: #E8ECF4;
+    color: #46536B;
+}
+
+#fechar-modal:hover,
+#cancelar-apagar:hover {
+    background: #D8DEEA;
+}
+
+#confirmar-apagar {
+    background: #D94A4A;
+}
+
+#confirmar-apagar:hover {
+    background: #B83232;
+}
+
+/* Rodapé */
+
+footer {
+    padding: 25px;
+
+    background: #263B70;
+    color: #D5DEF5;
+
+    text-align: center;
+    font-size: 13px;
+}
+
+/* Ecrãs pequenos */
+
+@media (max-width: 600px) {
+
+    header {
+        padding: 25px 15px;
+    }
+
+    header h1 {
+        font-size: 26px;
+    }
+
+    main {
+        width: 94%;
+        margin: 20px auto;
+    }
+
+    #nova-tarefa,
+    #lista-tarefas,
+    #estatisticas {
+        padding: 18px;
+    }
+
+    #estatisticas ul {
+        grid-template-columns: 1fr;
+    }
+
+    #filtros {
+        grid-template-columns: 1fr;
+    }
+
+    #filtros label,
+    #pesquisa {
+        grid-column: auto;
+    }
+
+    #lista li {
+        flex-wrap: wrap;
+    }
+
+}

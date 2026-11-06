@@ -9,6 +9,10 @@ const form_nova_node = document.querySelector("#form-nova-tarefa")
 const ul_node = document.querySelector("#lista")
 const mensagem_vazia_node = document.querySelector("#mensagem-vazia")
 
+const pesquisa_node = document.querySelector("#pesquisa")
+const filtro_prioridade_node = document.querySelector("#filtro-prioridade")
+const filtro_estado_node = document.querySelector("#filtro-estado")
+
 const total_node = document.querySelector("#total-tarefas")
 const pendentes_node = document.querySelector("#tarefas-pendentes")
 const concluidas_node = document.querySelector("#tarefas-concluidas")
@@ -50,12 +54,41 @@ function atualizarEstatisticas() {
     ).length
 }
 
+
 // Apresentar tarefas
 
 function listarTarefas() {
     ul_node.innerHTML = ""
 
-    mensagem_vazia_node.hidden = tarefas.length !== 0
+    const pesquisa = pesquisa_node.value.trim().toLowerCase()
+    const prioridade_selecionada = filtro_prioridade_node.value
+    const estado_selecionado = filtro_estado_node.value
+
+    const tarefas_filtradas = tarefas.filter(tarefa => {
+        const corresponde_pesquisa = tarefa.titulo.toLowerCase().includes(pesquisa)
+
+        const corresponde_prioridade =
+            prioridade_selecionada === "todas" ||
+            tarefa.prioridade === Number(prioridade_selecionada)
+
+        const corresponde_estado =
+            estado_selecionado === "todos" ||
+            tarefa.estado === estado_selecionado
+
+        return (
+            corresponde_pesquisa &&
+            corresponde_prioridade &&
+            corresponde_estado
+        )
+    })
+
+    mensagem_vazia_node.hidden = tarefas_filtradas.length !== 0
+
+    if (tarefas.length > 0 && tarefas_filtradas.length === 0) {
+        mensagem_vazia_node.textContent = "Não foram encontradas tarefas."
+    } else {
+        mensagem_vazia_node.textContent = "Ainda não existem tarefas. Adiciona a tua primeira tarefa!"
+    }
 
     const prioridades = {
         1: "Baixa",
@@ -63,7 +96,7 @@ function listarTarefas() {
         3: "Alta"
     }
 
-    tarefas.forEach(tarefa => {
+    tarefas_filtradas.forEach(tarefa => {
         const li = document.createElement("li")
 
         const descricao = document.createElement("span")
@@ -85,7 +118,7 @@ function listarTarefas() {
             ? "Concluir"
             : "Reabrir"
         btn_estado.type = "button"
-        btn_estado.onclick = () => alterarEstado(tarefa.id)    
+        btn_estado.onclick = () => alterarEstado(tarefa.id)
 
         const btn_editar = document.createElement("button")
         btn_editar.textContent = "Editar"
@@ -112,6 +145,7 @@ function listarTarefas() {
 
     atualizarEstatisticas()
 }
+
 
 // Criar tarefa
 
@@ -234,6 +268,12 @@ function cancelarEliminacao() {
 }
 
 // Event listeners
+
+pesquisa_node.addEventListener("input", listarTarefas)
+
+filtro_prioridade_node.addEventListener("change", listarTarefas)
+
+filtro_estado_node.addEventListener("change", listarTarefas)
 
 form_nova_node.addEventListener("submit", criarTarefa)
 

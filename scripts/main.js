@@ -80,6 +80,13 @@ function listarTarefas() {
             ? "Pendente"
             : "Concluída"
 
+        const btn_estado = document.createElement("button")
+        btn_estado.textContent = tarefa.estado === "pendente"
+            ? "Concluir"
+            : "Reabrir"
+        btn_estado.type = "button"
+        btn_estado.onclick = () => alterarEstado(tarefa.id)    
+
         const btn_editar = document.createElement("button")
         btn_editar.textContent = "Editar"
         btn_editar.type = "button"
@@ -95,6 +102,7 @@ function listarTarefas() {
             responsavel,
             prioridade,
             estado,
+            btn_estado,
             btn_editar,
             btn_apagar
         )
@@ -133,6 +141,21 @@ function criarTarefa(event) {
     listarTarefas()
 
     form_nova_node.reset()
+}
+
+// Alterar estado da tarefa
+
+function alterarEstado(id) {
+    const tarefa = tarefas.find(tarefa => tarefa.id === id)
+
+    if (!tarefa) return
+
+    tarefa.estado = tarefa.estado === "pendente"
+        ? "concluida"
+        : "pendente"
+
+    guardarTarefas()
+    listarTarefas()
 }
 
 // Editar tarefa

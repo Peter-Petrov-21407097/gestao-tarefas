@@ -1,4 +1,17 @@
+
 // Variáveis
+
+const titulo_node = document.querySelector("#titulo")
+const prioridade_node = document.querySelector("#prioridade")
+const user_node = document.querySelector("#user")
+
+const form_nova_node = document.querySelector("#form-nova-tarefa")
+const ul_node = document.querySelector("#lista")
+const mensagem_vazia_node = document.querySelector("#mensagem-vazia")
+
+const total_node = document.querySelector("#total-tarefas")
+const pendentes_node = document.querySelector("#tarefas-pendentes")
+const concluidas_node = document.querySelector("#tarefas-concluidas")
 
 const modal_editar_node = document.querySelector("#modal-editar")
 const form_editar_node = document.querySelector("#form-editar")
@@ -7,13 +20,15 @@ const edit_titulo_node = document.querySelector("#edit-titulo")
 const edit_prioridade_node = document.querySelector("#edit-prioridade")
 const edit_user_node = document.querySelector("#edit-user")
 const fechar_modal_node = document.querySelector("#fechar-modal")
-const STORAGE_KEY = "taskflow-tarefas"
+
 const modal_apagar_node = document.querySelector("#modal-apagar")
 const confirmar_apagar_node = document.querySelector("#confirmar-apagar")
 const cancelar_apagar_node = document.querySelector("#cancelar-apagar")
 
-let tarefa_para_apagar = null
+const STORAGE_KEY = "taskflow-tarefas"
+
 let tarefas = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []
+let tarefa_para_apagar = null
 
 // Guardar tarefas
 
@@ -42,6 +57,12 @@ function listarTarefas() {
 
     mensagem_vazia_node.hidden = tarefas.length !== 0
 
+    const prioridades = {
+        1: "Baixa",
+        2: "Média",
+        3: "Alta"
+    }
+
     tarefas.forEach(tarefa => {
         const li = document.createElement("li")
 
@@ -52,13 +73,6 @@ function listarTarefas() {
         responsavel.textContent = `Responsável: ${tarefa.user}`
 
         const prioridade = document.createElement("span")
-
-        const prioridades = {
-            1: "Baixa",
-            2: "Média",
-            3: "Alta"
-        }
-
         prioridade.textContent = `Prioridade: ${prioridades[tarefa.prioridade]}`
 
         const estado = document.createElement("span")
@@ -198,13 +212,13 @@ function cancelarEliminacao() {
 
 // Event listeners
 
+form_nova_node.addEventListener("submit", criarTarefa)
 
 form_editar_node.addEventListener("submit", atualizarTarefa)
 
 fechar_modal_node.addEventListener("click", () => {
     modal_editar_node.close()
 })
-form_nova_node.addEventListener("submit", criarTarefa)
 
 confirmar_apagar_node.addEventListener(
     "click",

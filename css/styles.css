@@ -181,6 +181,7 @@ button:hover {
     grid-column: 1 / -1;
 }
 
+
 /* Lista de tarefas */
 
 #lista {
@@ -208,18 +209,78 @@ button:hover {
     border-radius: 8px;
 }
 
+#lista li.tarefa {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
+    gap: 12px;
+
+    padding: 18px;
+
+    background: white;
+
+    border: 1px solid #E1E6F0;
+    border-left: 5px solid #3157D5;
+    border-radius: 10px;
+}
+
+/* Prioridades */
+
+#lista li.prioridade-1 {
+    border-left-color: #3157D5;
+}
+
+#lista li.prioridade-2 {
+    border-left-color: #E69B32;
+}
+
+#lista li.prioridade-3 {
+    border-left-color: #D94A4A;
+}
+
+/* Tarefas concluidas */
+
+#lista li.concluida {
+    background: #F4F6F8;
+    opacity: 0.8;
+}
+
+#lista li.concluida span:first-child {
+    text-decoration: line-through;
+    color: #718096;
+}
+
+/* Botoes das tarefas */
+
 #lista li button {
-    width: auto;
+    width: 100%;
     padding: 9px 12px;
 }
 
-#lista li button:last-child {
+#lista li .btn-estado {
+    background: #23865B;
+}
+
+#lista li .btn-estado:hover {
+    background: #176B46;
+}
+
+#lista li .btn-editar {
+    background: #3157D5;
+}
+
+#lista li .btn-editar:hover {
+    background: #2445B5;
+}
+
+#lista li .btn-apagar {
     background: #D94A4A;
 }
 
-#lista li button:last-child:hover {
+#lista li .btn-apagar:hover {
     background: #B83232;
 }
+
+/* Mensagem de lista vazia */
 
 #mensagem-vazia {
     padding: 20px;
@@ -329,13 +390,14 @@ footer {
         grid-column: auto;
     }
 
-    #lista li {
-        flex-wrap: wrap;
+    #lista li.tarefa {
+    grid-template-columns: 1fr 1fr;
     }
 
+    #lista li.tarefa span:first-child {
+    grid-column: 1 / -1;
 }
-
-
+}
 /* Botoes das tarefas */
 
 #lista li button {
@@ -366,10 +428,48 @@ footer {
     background: #B83232;
 }
 
-/* Ecras pequenos */
+
+/* Ecrãs pequenos */
 
 @media (max-width: 600px) {
-    #lista li.tarefa {
+
+    header {
+        padding: 25px 15px;
+    }
+
+    header h1 {
+        font-size: 26px;
+    }
+
+    main {
+        width: 94%;
+        margin: 20px auto;
+    }
+
+    #nova-tarefa,
+    #lista-tarefas,
+    #estatisticas {
+        padding: 18px;
+    }
+
+    #estatisticas ul {
         grid-template-columns: 1fr;
+    }
+
+    #filtros {
+        grid-template-columns: 1fr;
+    }
+
+    #filtros label,
+    #pesquisa {
+        grid-column: auto;
+    }
+
+    #lista li.tarefa {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    #lista li.tarefa span:first-child {
+        grid-column: 1 / -1;
     }
 }

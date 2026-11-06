@@ -217,18 +217,17 @@ button:hover {
     border-radius: 10px;
 }
 
-/* Prioridades */
+/* Cartoes de tarefas */
 
-#lista li.prioridade-1 {
-    border-left-color: #3157D5;
+#lista li.tarefa {
+    border-left: 1px solid #E1E6F0;
 }
 
-#lista li.prioridade-2 {
-    border-left-color: #E69B32;
-}
+/* Simbolos de prioridade */
 
-#lista li.prioridade-3 {
-    border-left-color: #D94A4A;
+.simbolo-prioridade {
+    font-size: 22px;
+    text-align: center;
 }
 
 /* Tarefas concluidas */
@@ -236,11 +235,6 @@ button:hover {
 #lista li.concluida {
     background: #F4F6F8;
     opacity: 0.8;
-}
-
-#lista li.concluida span:first-child {
-    text-decoration: line-through;
-    color: #718096;
 }
 
 /* Botoes das tarefas */

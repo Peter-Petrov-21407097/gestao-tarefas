@@ -106,8 +106,18 @@ function listarTarefas() {
     const responsavel = document.createElement("span");
     responsavel.textContent = `Responsável: ${tarefa.user}`;
 
-    const prioridade = document.createElement("span");
-    prioridade.textContent = `Prioridade: ${prioridades[tarefa.prioridade]}`;
+    const prioridade = document.createElement("span")
+
+    const simbolos_prioridade = {
+      1: "🟢",
+      2: "🟡",
+      3: "🟠",
+      4: "🔴"
+    }
+
+prioridade.textContent = simbolos_prioridade[tarefa.prioridade]
+prioridade.classList.add("simbolo-prioridade")
+prioridade.title = prioridades[tarefa.prioridade]
 
     const estado = document.createElement("span");
     estado.textContent =

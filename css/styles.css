@@ -334,3 +334,42 @@ footer {
     }
 
 }
+
+
+/* Botoes das tarefas */
+
+#lista li button {
+    width: 100%;
+}
+
+#lista li .btn-estado {
+    background: #23865B;
+}
+
+#lista li .btn-estado:hover {
+    background: #176B46;
+}
+
+#lista li .btn-editar {
+    background: #3157D5;
+}
+
+#lista li .btn-editar:hover {
+    background: #2445B5;
+}
+
+#lista li .btn-apagar {
+    background: #D94A4A;
+}
+
+#lista li .btn-apagar:hover {
+    background: #B83232;
+}
+
+/* Ecras pequenos */
+
+@media (max-width: 600px) {
+    #lista li.tarefa {
+        grid-template-columns: 1fr;
+    }
+}

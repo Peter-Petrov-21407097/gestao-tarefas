@@ -172,9 +172,9 @@ function listarTarefas() {
             prioridade,
             data_hora,
             estado,
+            btn_apagar,
             btn_estado,
-            btn_editar,
-            btn_apagar
+            btn_editar
         );
 
         ul_node.append(li);

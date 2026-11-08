@@ -8,19 +8,15 @@
 body {
     margin: 0;
     padding: 0;
-
     font-family: Arial, Helvetica, sans-serif;
-
     background: #F4F6FA;
     color: #202B40;
 }
 
 header {
     padding: 35px 20px;
-
     background: #263B70;
     color: white;
-
     text-align: center;
 }
 
@@ -37,8 +33,7 @@ header p {
 
 main {
     width: 90%;
-    max-width: 850px;
-
+    max-width: 1100px;
     margin: 35px auto;
 }
 
@@ -49,25 +44,23 @@ section {
 h2 {
     margin-top: 0;
     margin-bottom: 20px;
-
     font-size: 21px;
     color: #263B70;
 }
 
-/* Formulário de novas tarefas */
+/* Cartões principais */
 
 #nova-tarefa,
 #lista-tarefas,
 #estatisticas {
     padding: 25px;
-
     background: white;
-
     border: 1px solid #E1E6F0;
     border-radius: 12px;
-
     box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
 }
+
+/* Formulário de novas tarefas */
 
 #form-nova-tarefa {
     display: flex;
@@ -86,12 +79,9 @@ textarea,
 select,
 button {
     width: 100%;
-
     padding: 12px;
-
     font-family: inherit;
     font-size: 14px;
-
     border: 1px solid #D8DEEA;
     border-radius: 7px;
 }
@@ -112,19 +102,15 @@ textarea:focus,
 select:focus {
     outline: none;
     border-color: #3157D5;
-
     box-shadow: 0 0 0 3px rgba(49, 87, 213, 0.10);
 }
 
 button {
     background: #3157D5;
     color: white;
-
     border: none;
-
     font-weight: bold;
     cursor: pointer;
-
     transition: background 0.2s;
 }
 
@@ -138,7 +124,6 @@ button:hover {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 15px;
-
     list-style: none;
     padding: 0;
     margin: 0;
@@ -149,12 +134,9 @@ button:hover {
     flex-direction: column;
     align-items: center;
     gap: 10px;
-
     padding: 20px 10px;
-
     background: #F4F6FA;
     border-radius: 9px;
-
     color: #718096;
 }
 
@@ -169,7 +151,6 @@ button:hover {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 10px;
-
     margin-bottom: 20px;
 }
 
@@ -181,18 +162,14 @@ button:hover {
     grid-column: 1 / -1;
 }
 
-
-
 /* Lista de tarefas */
 
 #lista {
     display: flex;
     flex-direction: column;
     gap: 12px;
-
     padding: 0;
     margin: 0;
-
     list-style: none;
 }
 
@@ -201,55 +178,54 @@ button:hover {
     grid-template-columns:
         minmax(130px, 2fr)
         minmax(100px, 1.3fr)
-        minmax(90px, 1fr)
+        35px
+        minmax(110px, 1.2fr)
         minmax(75px, 0.8fr)
-        repeat(3, minmax(85px, 1fr));
+        repeat(3, minmax(75px, 0.9fr));
 
     align-items: center;
     gap: 10px;
-
     padding: 15px;
 
     background: white;
-
     border: 1px solid #E1E6F0;
-    border-left: 5px solid #3157D5;
     border-radius: 10px;
 }
 
-/* Cartoes de tarefas */
-
-#lista li.tarefa {
-    border-left: 1px solid #E1E6F0;
-}
-
-/* Simbolos de prioridade */
+/* Símbolos de prioridade */
 
 .simbolo-prioridade {
     font-size: 22px;
     text-align: center;
 }
 
-/* Simbolos de prioridade */
-
-.simbolo-prioridade {
-    font-size: 22px;
-    text-align: center;
-}
-
-/* Tarefas concluidas */
+/* Tarefas concluídas */
 
 #lista li.concluida {
     background: #F4F6F8;
     opacity: 0.8;
 }
 
-/* Botoes das tarefas */
+#lista li.concluida span:first-child {
+    text-decoration: line-through;
+    color: #718096;
+}
 
-#lista li button {
+/* Botões das tarefas */
+
+#lista li.tarefa button {
     width: 100%;
     padding: 9px 5px;
     font-size: 12px;
+    white-space: nowrap;
+}
+
+#lista li .btn-apagar {
+    background: #D94A4A;
+}
+
+#lista li .btn-apagar:hover {
+    background: #B83232;
 }
 
 #lista li .btn-estado {
@@ -268,19 +244,10 @@ button:hover {
     background: #2445B5;
 }
 
-#lista li .btn-apagar {
-    background: #D94A4A;
-}
-
-#lista li .btn-apagar:hover {
-    background: #B83232;
-}
-
 /* Mensagem de lista vazia */
 
 #mensagem-vazia {
     padding: 20px;
-
     text-align: center;
     color: #718096;
 }
@@ -290,14 +257,10 @@ button:hover {
 dialog {
     width: 90%;
     max-width: 450px;
-
     padding: 25px;
-
     background: white;
-
     border: none;
     border-radius: 12px;
-
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.20);
 }
 
@@ -342,88 +305,11 @@ dialog form {
 
 footer {
     padding: 25px;
-
     background: #263B70;
     color: #D5DEF5;
-
     text-align: center;
     font-size: 13px;
 }
-
-/* Ecrãs pequenos */
-
-@media (max-width: 600px) {
-
-    header {
-        padding: 25px 15px;
-    }
-
-    header h1 {
-        font-size: 26px;
-    }
-
-    main {
-        width: 94%;
-        margin: 20px auto;
-    }
-
-    #nova-tarefa,
-    #lista-tarefas,
-    #estatisticas {
-        padding: 18px;
-    }
-
-    #estatisticas ul {
-        grid-template-columns: 1fr;
-    }
-
-    #filtros {
-        grid-template-columns: 1fr;
-    }
-
-    #filtros label,
-    #pesquisa {
-        grid-column: auto;
-    }
-
-    #lista li.tarefa {
-    grid-template-columns: 1fr 1fr;
-    }
-
-    #lista li.tarefa span:first-child {
-    grid-column: 1 / -1;
-}
-}
-/* Botoes das tarefas */
-
-#lista li button {
-    width: 100%;
-}
-
-#lista li .btn-estado {
-    background: #23865B;
-}
-
-#lista li .btn-estado:hover {
-    background: #176B46;
-}
-
-#lista li .btn-editar {
-    background: #3157D5;
-}
-
-#lista li .btn-editar:hover {
-    background: #2445B5;
-}
-
-#lista li .btn-apagar {
-    background: #D94A4A;
-}
-
-#lista li .btn-apagar:hover {
-    background: #B83232;
-}
-
 
 /* Ecrãs pequenos */
 

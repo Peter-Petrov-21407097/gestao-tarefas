@@ -85,39 +85,51 @@
         </section>
 
         <section id="lista-tarefas">
-            <h2>As minhas tarefas</h2>
+    <h2>As minhas tarefas</h2>
 
-            <div id="filtros">
+    <div id="filtros">
 
-                <label for="pesquisa">Pesquisar</label>
-                <input
-                    type="search"
-                    id="pesquisa"
-                    placeholder="Procurar tarefa..."
-                >
+        <div class="filtro-pesquisa">
+            <label for="pesquisa">Pesquisar</label>
+            <input
+                type="search"
+                id="pesquisa"
+                placeholder="Procurar tarefa..."
+            >
+        </div>
 
-                <label for="filtro-prioridade">Prioridade</label>
-                <select id="filtro-prioridade">
-                    <option value="todas">Todas</option>
-                    <option value="1">Baixa</option>
-                    <option value="2">Média</option>
-                    <option value="3">Alta</option>
-                </select>
+        <div class="filtro">
+            <label for="filtro-prioridade">Prioridade</label>
+            <select id="filtro-prioridade">
+                <option value="todas">Todas</option>
+                <option value="1">Baixa</option>
+                <option value="2">Média</option>
+                <option value="3">Alta</option>
+            </select>
+        </div>
 
-                <label for="filtro-estado">Estado</label>
-                <select id="filtro-estado">
-                    <option value="todos">Todos</option>
-                    <option value="pendente">Pendente</option>
-                    <option value="concluida">Concluída</option>
-                </select>
+        <div class="filtro">
+            <label for="filtro-estado">Estado</label>
+            <select id="filtro-estado">
+                <option value="todos">Todos</option>
+                <option value="pendente">Pendente</option>
+                <option value="concluida">Concluída</option>
+            </select>
+        </div>
 
-            </div>
+        <div class="filtro">
+            <label for="filtro-data">Data</label>
+            <select id="filtro-data">
+                <option value="todas">Todas</option>
+                <option value="hoje">Hoje</option>
+                <option value="semana">Próximos 7 dias</option>
+                <option value="atrasadas">Datas ultrapassadas</option>
+                <option value="sem-data">Sem data</option>
+            </select>
+        </div>
 
-            <p id="mensagem-vazia">Ainda não existem tarefas. Adiciona a tua primeira tarefa!</p>
-
-            <ul id="lista"></ul>
-
-        </section>
+    </div>
+</section>
 
     </main>
 

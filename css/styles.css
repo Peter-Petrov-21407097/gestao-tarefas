@@ -1,4 +1,3 @@
-
 /* Configuração geral */
 
 * {
@@ -149,17 +148,30 @@ button:hover {
 
 #filtros {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 10px;
     margin-bottom: 20px;
 }
 
-#filtros label {
-    grid-column: auto;
+/* Pesquisa ocupa toda a largura */
+
+.filtro-pesquisa {
+    grid-column: 1 / -1;
 }
 
-#pesquisa {
-    grid-column: 1 / -1;
+/* Organização dos filtros */
+
+.filtro {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* Campos ocupam toda a largura disponível */
+
+.filtro select,
+.filtro-pesquisa input {
+    width: 100%;
 }
 
 /* Lista de tarefas */
@@ -342,8 +354,7 @@ footer {
         grid-template-columns: 1fr;
     }
 
-    #filtros label,
-    #pesquisa {
+    .filtro-pesquisa {
         grid-column: auto;
     }
 

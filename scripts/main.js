@@ -13,6 +13,7 @@ const mensagem_vazia_node = document.querySelector("#mensagem-vazia");
 const pesquisa_node = document.querySelector("#pesquisa");
 const filtro_prioridade_node = document.querySelector("#filtro-prioridade");
 const filtro_estado_node = document.querySelector("#filtro-estado");
+const filtro_data_node = document.querySelector("#filtro-data");
 
 const total_node = document.querySelector("#total-tarefas");
 const pendentes_node = document.querySelector("#tarefas-pendentes");
@@ -58,35 +59,89 @@ function atualizarEstatisticas() {
 
 // Apresentar tarefas
 
+// Apresentar tarefas
+
 function listarTarefas() {
     ul_node.innerHTML = "";
 
     const pesquisa = pesquisa_node.value.trim().toLowerCase();
     const prioridade_selecionada = filtro_prioridade_node.value;
     const estado_selecionado = filtro_estado_node.value;
+    const data_selecionada = filtro_data_node.value;
+
+    const agora = new Date();
+
+    const hoje = new Date(
+        agora.getFullYear(),
+        agora.getMonth(),
+        agora.getDate()
+    );
+
+    const limite_semana = new Date(hoje);
+    limite_semana.setDate(limite_semana.getDate() + 7);
 
     const tarefas_filtradas = tarefas.filter((tarefa) => {
-        const corresponde_pesquisa = tarefa.titulo.toLowerCase().includes(pesquisa);
 
+        // Filtro de pesquisa
+        const corresponde_pesquisa =
+            tarefa.titulo.toLowerCase().includes(pesquisa);
+
+        // Filtro de prioridade
         const corresponde_prioridade =
             prioridade_selecionada === "todas" ||
             tarefa.prioridade === Number(prioridade_selecionada);
 
+        // Filtro de estado
         const corresponde_estado =
             estado_selecionado === "todos" ||
             tarefa.estado === estado_selecionado;
 
+        // Filtro de data
+        const data_tarefa = tarefa.dataHora
+            ? new Date(tarefa.dataHora)
+            : null;
+
+        let corresponde_data = true;
+
+        if (data_selecionada === "hoje") {
+            corresponde_data =
+                data_tarefa !== null &&
+                data_tarefa >= hoje &&
+                data_tarefa < new Date(limite_semana.getTime() -
+                    6 * 24 * 60 * 60 * 1000);
+        }
+
+        if (data_selecionada === "semana") {
+            corresponde_data =
+                data_tarefa !== null &&
+                data_tarefa >= hoje &&
+                data_tarefa < limite_semana;
+        }
+
+        if (data_selecionada === "atrasadas") {
+            corresponde_data =
+                data_tarefa !== null &&
+                data_tarefa < agora &&
+                tarefa.estado === "pendente";
+        }
+
+        if (data_selecionada === "sem-data") {
+            corresponde_data = !tarefa.dataHora;
+        }
+
         return (
             corresponde_pesquisa &&
             corresponde_prioridade &&
-            corresponde_estado
+            corresponde_estado &&
+            corresponde_data
         );
     });
 
     mensagem_vazia_node.hidden = tarefas_filtradas.length !== 0;
 
     if (tarefas.length > 0 && tarefas_filtradas.length === 0) {
-        mensagem_vazia_node.textContent = "Não foram encontradas tarefas.";
+        mensagem_vazia_node.textContent =
+            "Não foram encontradas tarefas.";
     } else {
         mensagem_vazia_node.textContent =
             "Ainda não existem tarefas. Adiciona a tua primeira tarefa!";
@@ -319,6 +374,8 @@ pesquisa_node.addEventListener("input", listarTarefas);
 filtro_prioridade_node.addEventListener("change", listarTarefas);
 
 filtro_estado_node.addEventListener("change", listarTarefas);
+
+filtro_data_node.addEventListener("change", listarTarefas);
 
 form_nova_node.addEventListener("submit", criarTarefa);
 
